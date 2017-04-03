@@ -1,0 +1,11 @@
+MANIFEST.in
+README.rst
+csvputty/__init__.py
+csvputty/__main__.py
+csvputty/markup.py
+csvputty.egg-info/PKG-INFO
+csvputty.egg-info/SOURCES.txt
+csvputty.egg-info/dependency_links.txt
+csvputty.egg-info/entry_points.txt
+csvputty.egg-info/requires.txt
+csvputty.egg-info/top_level.txt

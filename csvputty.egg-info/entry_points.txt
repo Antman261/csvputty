@@ -1,0 +1,4 @@
+
+        [console_scripts]
+        csvputty=csvputty.__main__:cli
+    
