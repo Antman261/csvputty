@@ -3,12 +3,12 @@ import csv
 """markup: Module for generating markup from csv files."""
 
 
-DEF_TEMPLATE = '{0}\n\
+DEF_TEMPLATE = '\
 <tr>\n\
+    <td>{0}</td>\n\
     <td>{1}</td>\n\
     <td>{2}</td>\n\
     <td>{3}</td>\n\
-    <td>{4}</td>\n\
 </tr>'
 
 
@@ -18,7 +18,7 @@ def _parse_row(cols, row, func=None):
     return [row[idx] for idx in cols]
 
 
-def generate(custom_row_parser=None, cols=None, csv_file_path=None, template=None,
+def generate(custom_row_parser=None, cols=None, csv_file_path=None, template=DEF_TEMPLATE,
              out_file_path=None):
     if template != DEF_TEMPLATE:
         try:
