@@ -8,7 +8,7 @@ All csvputty commands start with `csvputty` and then the command you wish to per
 
 For example:
 
-`$ csvputty markdown 0 1 3 -t template.html -i data.csv -o rendered.html`
+`$ csvputty markup 0 1 3 -t template.html -i data.csv -o rendered.html`
 
 The above command will render a new html file using `template.html` as a format string for each row of `data.csv` and the columns with index 0, 1, and 3 for format string indices 0 1 2.
 
