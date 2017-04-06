@@ -12,25 +12,36 @@ def cli():
 
 @click.command()
 @click.argument('cols', nargs=-1, type=int)
-@click.option('-t', '--temp', help='Template with format string', type=click.File('rb'))
-@click.option('-i', '--inpf', help='Input csv file', type=click.File('rb'))
-@click.option('-o', '--outf', help='Output markup file', type=click.File('wb'))
-def markup(cols, temp, inpf, outf):
-    _markup.generate(cols=cols, csv_file_path=inpf,
-                     template=temp, out_file_path=outf)
+@click.argument('csv', nargs=1, type=click.File('r'))
+@click.argument('template', nargs=1, type=click.File('r'))
+@click.argument('output', nargs=1, type=click.File('w'))
+def markup(cols, csv, template, output):
+    """
+    Mark up data from a CSV file by parsing select columns through a template.
+
+    Passing - to CSV, TEMPLATE, or OUTPUT will read/write stdin/stdout
+    """
+    _markup.generate(cols=cols, csv_file=csv,
+                     template_file=template, output_file=output)
 
 
 @click.command()
-@click.option('-i', '--inpf', help='Input csv file', type=click.File('rb'))
-@click.option('-o', '--outf', help='Output csv file')
-@click.option('-d', '--difff', help='Difference against csv file')
-@click.option('-dt', '--diff-type',
+@click.argument('inputcsv', nargs=1, type=click.File('r'))
+@click.argument('diffcsv', nargs=1, type=click.File('r'))
+@click.argument('output', nargs=1, type=click.File('w'))
+@click.option('-d', '--diff-type',
               help='Type of diff operation, choose from subtract, &, |',
               default='subtract')
-@click.option('-sc', '--source-col', help='Source comparison column(s)')
-@click.option('-dc', '--diff-col', help='Diff comparison column(s)')
-def diff(inpf, outf, difff, diff_type, source_col, diff_col):
-    _diff.run(input_file_path=inpf, out_file_path=outf, diff_file_path=difff,
+@click.option('-sc', '--source-col', help='Source comparison column(s)', default=0)
+@click.option('-dc', '--diff-col', help='Diff comparison column(s)', default=0)
+def diff(inputcsv, diffcsv, output, diff_type, source_col, diff_col):
+    """
+    Compare the input CSV against a difference file,
+    outputting rows matching the condition.
+
+    Passing - to INPUTCSV, DIFFCSV, or OUTPUT will read/write stdin/stdout
+    """
+    _diff.run(input_csv=inputcsv, out_file=output, diff_file=diffcsv,
               diff_type=diff_type, source_col=source_col, diff_col=diff_col)
 
 

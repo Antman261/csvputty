@@ -2,6 +2,7 @@ MANIFEST.in
 README.rst
 csvputty/__init__.py
 csvputty/__main__.py
+csvputty/diff.py
 csvputty/markup.py
 csvputty.egg-info/PKG-INFO
 csvputty.egg-info/SOURCES.txt

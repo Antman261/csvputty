@@ -14,21 +14,34 @@ def _build_diff_values():
 
 
 def _setup_env(**options):
-    global SRC_CSV, DIF_CSV, OUT_CSV, SRC_COL, DIF_COL, DIF_VALUES, DIF_COL_NAME
+    global SRC_CSV, DIF_CSV, OUT_CSV, SRC_COL, DIF_COL, DIF_VALUES, DIF_COL_NAME, DIF_TYPE
 
-    SRC_CSV = csv.reader(open(options['input_file_path']))
-    DIF_CSV = csv.reader(open(options['diff_file_path']))
-    OUT_CSV = csv.writer(open(options['out_file_path'], 'w'))
+    SRC_CSV = csv.reader(options['input_csv'])
+    DIF_CSV = csv.reader(options['diff_file'])
+    OUT_CSV = csv.writer(options['out_file'])
     SRC_COL = options['source_col']
     DIF_COL = options['diff_col']
+    DIF_TYPE = options['diff_type']
 
     DIF_VALUES = []
     DIF_COL_NAME = ''
 
 
-def _validate_parameters():
-    if input_file_path is None:
-
+def _validate_parameters(input_csv=None, out_file=None, diff_file=None, diff_type=None,
+                         source_col=None, diff_col=None):
+    if input_csv is None:
+        return False
+    if out_file is None:
+        return False
+    if diff_file is None:
+        return False
+    if diff_type is None:
+        return False
+    if source_col is None:
+        return False
+    if diff_col is None:
+        return False
+    return True
 
 
 def run(**options):
@@ -39,7 +52,7 @@ def run(**options):
     for idx, row in enumerate(SRC_CSV):
         if idx == 0:
             print('Comparing columns: {} {} {}'.format(
-                row[SRC_COL], options['diff_type'], DIF_COL_NAME
+                row[SRC_COL], DIF_TYPE, DIF_COL_NAME
             ))
             OUT_CSV.writerow(row)
             continue
@@ -48,7 +61,7 @@ def run(**options):
 
 
 def check_row(row):
-    if options['diff_type'] == 'subtract':
+    if DIF_TYPE == 'subtract':
         if row[SRC_COL] in DIF_VALUES:
             return False
         return True
