@@ -8,11 +8,13 @@ A set of command line interfaces and python modules for easily manipulating, tra
 
 All csvputty commands start with `csvputty` and then the command you wish to perform.
 
-For example:
+### markup
+
+This command will take the selected columns of a CSV file, process each row through a format string, and return the collective output. For example:
 
 `$ csvputty markup 0 1 3 data.csv template.html rendered.html`
 
-The above command will render a new html file using `template.html` as a format string for each row of `data.csv` and the columns with index 0, 1, and 3 for format string indices 0 1 2.
+This parses reach row of `data.csv` using the content of `template.html` as a format string and saves to `rendered.html`.
 
 In the above example, `template.html` could be the following:
 
@@ -26,7 +28,7 @@ In the above example, `template.html` could be the following:
 
 However csvputty really becomes useful in the full context of the command line. Take the following example:
 
-`cat data1.csv data2.csv | csvputty markup 0 1 - template.html rendered.html`
+`$ cat data1.csv data2.csv | csvputty markup 0 1 - template.html rendered.html`
 
 This passes `data1.csv` and `data2.csv` through the same template and renders them together in a single file.
 
@@ -34,6 +36,13 @@ This passes `data1.csv` and `data2.csv` through the same template and renders th
 
 This opens stdin allowing you to enter the template via command line and prints the results to stdout.
 
+### diff
+
+Diff compares the input CSV against another CSV and outputs rows where selected columns fulfil the match condition.
+
+`$ cat subtract1.csv subtract2.csv | csvputty diff -sc 18 source.csv - out.csv`
+
+The above example returns columns from `source.csv` where column 18 is not found on column column 0 anywhere in `subtract1.csv` or `subtract2.csv`.
 
 ## Package Usage
 
@@ -44,9 +53,6 @@ For example:
 ```python
 import csvputty
 
-input = open('data.csv', 'r')
-out = open('rendered.html', 'w')
-template = open('template.html', 'r')
 
 def parse_row(row, row_index):
     for idx, col in enumerate(row):
@@ -57,8 +63,12 @@ def parse_row(row, row_index):
     return (img_url, row[1], insta_url, row[3], row[6])
 
 
-csvputty.markup.generate(custom_row_parser=parse_row, csv_file='data.csv',
-                         template_file='template.html', out_file='rendered.html')
+input = open('data.csv', 'r')
+out = open('rendered.html', 'w')
+template = open('template.html', 'r')
+
+csvputty.markup.generate(custom_row_parser=parse_row, csv_file=input
+                         template_file=template, out_file=out)
 ```
 
 The above example allows me to strip whitespace and replace ampersands with html entities on all columns, and perform further processing on other columns.
