@@ -14,7 +14,7 @@ This command will take the selected columns of a CSV file, process each row thro
 
 `$ csvputty markup 0 1 3 data.csv template.html rendered.html`
 
-This parses reach row of `data.csv` using the content of `template.html` as a format string and saves to `rendered.html`.
+This parses each row of `data.csv` using the content of `template.html` as a format string and saves to `rendered.html`.
 
 In the above example, `template.html` could be the following:
 
