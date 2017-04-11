@@ -3,8 +3,6 @@ from . import markup as _markup
 from . import diff as _diff
 from . import rm as _rm
 
-"""bootstrap.__main__: executed when bootstrap directory is called as script."""
-
 
 @click.group()
 @click.option('-i', '--input', nargs=1, type=click.File('r'), default='-',

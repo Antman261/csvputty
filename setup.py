@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-
-
-"""setup.py: setuptools control."""
-
-
-import re
 from setuptools import setup, find_packages
 
 
@@ -28,5 +21,17 @@ setup(
     long_description=long_descr,
     author="Anthony Manning-Franklin",
     author_email="anthony.manning.franklin@gmail.com",
-    url="",
+    url="https://github.com/Antman261/csvputty",
+    license='MIT',
+    classifiers=[
+      'Intended Audience :: Developers',
+      'License :: OSI Approved :: MIT License',
+      'Programming Language :: Python :: 3',
+      'Programming Language :: Python :: 3.1',
+      'Programming Language :: Python :: 3.2',
+      'Programming Language :: Python :: 3.3',
+      'Programming Language :: Python :: 3.4',
+      'Programming Language :: Python :: 3.5',
+    ],
+    keywords='csv command line cli'
 )

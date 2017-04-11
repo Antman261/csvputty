@@ -4,6 +4,12 @@ _Command-fu with csv files_
 
 A set of command line interfaces and python modules for easily manipulating, transforming and dealing with csv files quickly and effectively.
 
+## Installation
+
+`$ pip install csvputty`
+
+csvputty is now available in the commandline, try `$ csvputty --help` or `import csvputty` in a project!
+
 ## CLI Usage
 
 All csvputty commands start with `csvputty`, optionally any input/output files you wish to use, and then the command you wish to perform.
