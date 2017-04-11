@@ -6,13 +6,19 @@ A set of command line interfaces and python modules for easily manipulating, tra
 
 ## CLI Usage
 
-All csvputty commands start with `csvputty` and then the command you wish to perform.
+All csvputty commands start with `csvputty`, optionally any input/output files you wish to use, and then the command you wish to perform.
+
+If you do not supply i/o files then csvputty will use stdin/stdout instead.
+
+Example:
+
+`$ csvputty -i data.csv -o out.txt`
 
 ### markup
 
 This command will take the selected columns of a CSV file, process each row through a format string, and return the collective output. For example:
 
-`$ csvputty markup 0 1 3 data.csv template.html rendered.html`
+`$ csvputty -i data.csv -o rendered.html markup 0 1 3 template.html`
 
 This parses each row of `data.csv` using the content of `template.html` as a format string and saves to `rendered.html`.
 
@@ -26,13 +32,25 @@ In the above example, `template.html` could be the following:
 </div>
 ```
 
+or
+
+```html
+<div class="row">
+  <div class="col-sm-4">{coconuts}</div>
+  <div class="col-sm-4">{cheese}</div>
+  <div class="col-sm-4">{sausages}</div>
+</div>
+```
+
+If used with the `-h --header` flag the first row of the CSV is used to key the template.
+
 However csvputty really becomes useful in the full context of the command line. Take the following example:
 
-`$ cat data1.csv data2.csv | csvputty markup 0 1 - template.html rendered.html`
+`$ cat data1.csv data2.csv | csvputty -o rendered.html markup 0 1 template.html`
 
 This passes `data1.csv` and `data2.csv` through the same template and renders them together in a single file.
 
-`csvputty markup 0 1 data.csv - -`
+`csvputty -i data.csv markup 0 1 -`
 
 This opens stdin allowing you to enter the template via command line and prints the results to stdout.
 
@@ -40,9 +58,9 @@ This opens stdin allowing you to enter the template via command line and prints 
 
 Diff compares the input CSV against another CSV and outputs rows where selected columns fulfil the match condition.
 
-`$ cat subtract1.csv subtract2.csv | csvputty diff -sc 18 source.csv - out.csv`
+`$ cat subtract1.csv subtract2.csv | csvputty -i source.csv -o out.csv diff -sc 18 -`
 
-The above example returns columns from `source.csv` where column 18 is not found on column column 0 anywhere in `subtract1.csv` or `subtract2.csv`.
+The above example returns rows from `source.csv` where column 18 is not found on column column 0 anywhere in `subtract1.csv` or `subtract2.csv`.
 
 ## Package Usage
 

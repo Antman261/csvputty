@@ -8,7 +8,7 @@ def _build_diff_values():
     global DIF_COL_NAME
     for idx, row in enumerate(DIF_CSV):
         if idx > 0:
-            DIF_VALUES.append(row[DIF_COL])
+            DIF_VALUES.append(row[DIF_COL].strip().lower())
         else:
             DIF_COL_NAME = row[DIF_COL]
 
@@ -62,6 +62,6 @@ def run(**options):
 
 def check_row(row):
     if DIF_TYPE == 'subtract':
-        if row[SRC_COL] in DIF_VALUES:
+        if row[SRC_COL].strip().lower() in DIF_VALUES:
             return False
         return True
