@@ -16,17 +16,17 @@ All csvputty commands start with `csvputty`, optionally any input/output files y
 
 If you do not supply i/o files then csvputty will use stdin/stdout instead.
 
-Example:
-
-`$ csvputty -i data.csv -o out.txt`
+`$ csvputty -i data.csv -o out.txt [COMMAND]`
 
 ### markup
 
-This command will take the selected columns of a CSV file, process each row through a format string, and return the collective output. For example:
+This command will take the selected columns of a CSV file, process each row through a format string, and return the collective output.
 
-`$ csvputty -i data.csv -o rendered.html markup 0 1 3 template.html`
+```bash
+$ csvputty -i data.csv markup 0 1 3 template.html
+```
 
-This parses each row of `data.csv` using the content of `template.html` as a format string and saves to `rendered.html`.
+This parses each row of `data.csv` using the content of `template.html` as a format string, printing the results to stdout.
 
 In the above example, `template.html` could be the following:
 
@@ -38,7 +38,8 @@ In the above example, `template.html` could be the following:
 </div>
 ```
 
-or
+or if used with the `-h --header` flag the first row of the CSV is used to key the template.
+
 
 ```html
 <div class="row">
@@ -48,11 +49,9 @@ or
 </div>
 ```
 
-If used with the `-h --header` flag the first row of the CSV is used to key the template.
-
 However csvputty really becomes useful in the full context of the command line. Take the following example:
 
-`$ cat data1.csv data2.csv | csvputty -o rendered.html markup 0 1 template.html`
+`$ cat data1.csv data2.csv | csvputty markup 0 1 template.html > rendered.html`
 
 This passes `data1.csv` and `data2.csv` through the same template and renders them together in a single file.
 
@@ -78,7 +77,7 @@ For example:
 import csvputty
 
 
-def parse_row(row, row_index):
+def parse_row(row):
     for idx, col in enumerate(row):
         row[idx] = col.strip().replace("&", "&amp;")
     img_url = row[2].lower().replace(" ", "_").replace('&amp;', 'and')
