@@ -77,7 +77,7 @@ For example:
 import csvputty
 
 
-def parse_row(row):
+def parse_row(row, row_index):
     for idx, col in enumerate(row):
         row[idx] = col.strip().replace("&", "&amp;")
     img_url = row[2].lower().replace(" ", "_").replace('&amp;', 'and')
