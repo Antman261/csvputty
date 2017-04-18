@@ -26,7 +26,8 @@ def markup(ctx, cols, template, header):
     """
     Mark up data from a CSV file by passing select columns through a template.
 
-    Passing - to CSV, TEMPLATE, or OUTPUT will read/write stdin/stdout.
+    Passing - to TEMPLATE will read from stdin.
+    Use Ctrl-D to exit once you have entered a template.
     """
     _markup.generate(cols=cols, csv_file=ctx.obj['inputcsv'], use_dict_reader=header,
                      template_file=template, output_file=ctx.obj['out'])
@@ -35,7 +36,7 @@ def markup(ctx, cols, template, header):
 @click.command()
 @click.argument('diffcsv', nargs=1, type=click.File('r'))
 @click.option('-d', '--diff-type', default='subtract',
-              help='Type of diff operation, choose from subtract, &, |')
+              help='Type of diff operation')
 @click.option('-sc', '--source-col', help='Source comparison column(s)', default=0)
 @click.option('-dc', '--diff-col', help='Diff comparison column(s)', default=0)
 @click.pass_context
@@ -43,8 +44,6 @@ def diff(ctx, diffcsv, diff_type, source_col, diff_col):
     """
     Compare the input CSV against a difference file,
     outputting rows matching the condition.
-
-    Passing - to INPUTCSV, DIFFCSV, or OUTPUT will read/write stdin/stdout.
     """
     _diff.run(input_csv=ctx.obj['inputcsv'], out_file=ctx.obj['out'], diff_file=diffcsv,
               diff_type=diff_type, source_col=source_col, diff_col=diff_col)
