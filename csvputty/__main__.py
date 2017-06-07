@@ -2,6 +2,8 @@ import click
 from . import markup as _markup
 from . import diff as _diff
 from . import rm as _rm
+from . import split as _split
+from . import spread as _spread
 
 
 @click.group()
@@ -31,6 +33,41 @@ def markup(ctx, cols, template, header):
     """
     _markup.generate(cols=cols, csv_file=ctx.obj['inputcsv'], use_dict_reader=header,
                      template_file=template, output_file=ctx.obj['out'])
+
+
+@click.command()
+@click.option('-c', '--col', nargs=1, type=int, default=-1, help="Use column index")
+@click.option('-h', '--header', type=str, help="Use a header instead of column index")
+@click.pass_context
+def split(ctx, col, header):
+    """
+    Split a CSV into multiple files by the value specified by col or by header.
+
+    Output files are ignored by split. Instead, split appends values to input filename.
+    """
+    _split.run(input_csv=ctx.obj['inputcsv'], col=col, header=header)
+
+
+@click.command()
+@click.option('-p', '--percent', default=False, is_flag=True,
+              help='Flag: Calculate a percentage for each unique value in the selected\
+               columns')
+@click.option('-c', '--count', default=False, is_flag=True,
+              help="Flag: Count each unique value in the selected columns")
+@click.option('-h', '--header', default=False, is_flag=True,
+              help='Flag: Treat the first row of a csv as a header.')
+@click.argument('cols', nargs=-1, type=int)
+@click.pass_context
+def spread(ctx, percent, count, header, cols):
+    """
+    Report on the spread of unique values in the listed columns.
+    """
+    if percent:
+        _spread.percent(input_csv=ctx.obj['inputcsv'], cols=cols, header=header)
+    elif count:
+        _spread.count(input_csv=ctx.obj['inputcsv'], cols=cols, header=header)
+    else:
+        click.echo('Requires a method flag. One of -p --percent or -c --count')
 
 
 @click.command()
@@ -109,3 +146,5 @@ cli.add_command(rm)
 cli.add_command(markup)
 cli.add_command(diff)
 cli.add_command(spy)
+cli.add_command(split)
+cli.add_command(spread)

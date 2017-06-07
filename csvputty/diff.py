@@ -1,4 +1,5 @@
 import csv as csv
+import click
 
 
 """csvdiff: Module for diffing CSV files."""
@@ -51,7 +52,7 @@ def run(**options):
     _build_diff_values()
     for idx, row in enumerate(SRC_CSV):
         if idx == 0:
-            print('Comparing columns: {} {} {}'.format(
+            click.echo('Comparing columns: {} {} {}'.format(
                 row[SRC_COL], DIF_TYPE, DIF_COL_NAME
             ))
             OUT_CSV.writerow(row)

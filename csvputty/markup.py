@@ -16,7 +16,7 @@ def _prep_template_str(template):
         return template_str
 
 
-def _parse_row(cols, row, func=None, row_index):
+def _parse_row(cols, row, row_index, func=None):
     if func is not None:
         return func(row, row_index)
     if isinstance(row, list):
@@ -36,7 +36,7 @@ def generate(custom_row_parser=None, cols=None, csv_file=None, template_file=Non
         else:
             reader = csv.reader(csv_file)
         for idx, row in enumerate(reader):
-            parsed = _parse_row(cols, row, custom_row_parser, idx)
+            parsed = _parse_row(cols, row, idx, custom_row_parser)
             try:
                 html += template_str.format(*parsed)
             except KeyError:
